@@ -16,10 +16,10 @@ extern memcpy
 section .text
 
 ; Reserved registers
-; R9: Loop iterator
+; R10: Loop iterator
 
 _start:
-    mov r9, 0xffff                  ;Set iterator
+    mov r10, 0xffff                  ;Set iterator
 
     ; Copy msg to concat_buf
     mov rdi, msg
@@ -28,8 +28,8 @@ _start:
     call memcpy
 
 loop:
-    ; stritoa(r9, concat_buf + msglen, msglen + 8, 10)
-    mov rdi, r9                   
+    ; stritoa(r10, concat_buf + msglen, msglen + 8, 10)
+    mov rdi, r10                   
     mov rsi, concat_buf + msglen  
     mov rdx, msglen + 8
     mov rcx, 10
@@ -44,7 +44,7 @@ loop:
     mov rdx, msglen + 8             ;   sizeof("Hello, world!\n")
     syscall                         ; );
 
-    dec r9                          ; While r9 is > 0
+    dec r10                         ; While r10 is > 0
     jnz loop
 
     mov rax, 0x3c                   ; exit(

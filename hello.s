@@ -19,7 +19,7 @@ section .text
 ; R10: Loop iterator
 
 _start:
-    mov r10, 0xffff                  ;Set iterator
+    mov r10, 0x0F                   ;Set iterator
 
     ; Copy msg to concat_buf
     mov rdi, msg

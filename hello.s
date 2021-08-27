@@ -19,14 +19,13 @@ section .text
 ; R9: Loop iterator
 
 _start:
-    mov r9, 0xffff               ;Set iterator
+    mov r9, 0xffff                  ;Set iterator
 
     ; Copy msg to concat_buf
     mov rdi, msg
     mov rsi, concat_buf
     mov rdx, msglen
     call memcpy
-    ;mov r12, rbx
 
 loop:
     ; stritoa(r9, concat_buf + msglen, msglen + 8, 10)
@@ -36,21 +35,21 @@ loop:
     mov rcx, 10
     call stritoa
     
-    add rax, concat_buf + msglen ; Find end string
-    mov byte [rax], 0x0A ;Add newline
+    add rax, concat_buf + msglen    ; Find end string
+    mov byte [rax], 0x0A            ; Add newline
 
-    mov rax, 0x01        ; write(
-    mov rdi, 0x01        ;   STDOUT_FILENO,
-    mov rsi, concat_buf  ;   "Hello, world!\n",
-    mov rdx, msglen + 8  ;   sizeof("Hello, world!\n")
-    syscall              ; );
+    mov rax, 0x01                   ; write(
+    mov rdi, 0x01                   ;   STDOUT_FILENO,
+    mov rsi, concat_buf             ;   "Hello, world!\n",
+    mov rdx, msglen + 8             ;   sizeof("Hello, world!\n")
+    syscall                         ; );
 
-    dec r9               ; While r8 is > 0
+    dec r9                          ; While r9 is > 0
     jnz loop
 
-    mov rax, 0x3c        ; exit(
-    mov rdi, 0x00        ;   EXIT_SUCCESS
-    syscall              ; );
+    mov rax, 0x3c                   ; exit(
+    mov rdi, 0x00                   ;   EXIT_SUCCESS
+    syscall                         ; );
 
 section .rodata
     msg: db "Hello, world! "

@@ -8,9 +8,10 @@
 
 ; TODO
 ; Implement AVX memcpy?
-section .text
 
 global memcpy
+
+section .text
 
 ; Memcpy - Copies data from source to target with a predesignated length
 ; RDI: Source addr

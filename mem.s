@@ -21,18 +21,18 @@ section .text
 memcpy:
     push rbp            ; Set up the function
     mov rbp, rsp
-    mov rdi, [rbp + 32]
-    mov rsi, [rbp + 24]
-    mov rdx, [rbp + 16]
+    mov rax, [rbp + 32]
+    mov rbx, [rbp + 24]
+    mov rcx, [rbp + 16]
 
-    add rdx, rsi        ; Transform RDX into end pointer of target
+    add rcx, rbx        ; Transform rcx into end pointer of target
 _mem_cpy_loop:
-    mov cl, [rdi]       ; Take byte from source
-    mov [rsi], cl       ; Place byte to target
-    inc rdi             ; Move pointers forward
-    inc rsi
+    mov dl, [rax]       ; Take byte from source
+    mov [rbx], dl       ; Place byte to target
+    inc rax             ; Move pointers forward
+    inc rbx
 
-    cmp rsi, rdx        ; While target pointer is not end pointer 
+    cmp rbx, rcx        ; While target pointer is not end pointer 
     jl _mem_cpy_loop
 
     mov rsp, rbp        ; Restore stack and ebp

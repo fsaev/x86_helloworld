@@ -22,9 +22,12 @@ _start:
     mov r10, 0x0F                   ;Set iterator
 
     ; Copy msg to concat_buf
-    mov rdi, msg
-    mov rsi, concat_buf
-    mov rdx, msglen
+    ;mov rdi, msg
+    ;mov rsi, concat_buf
+    ;mov rdx, msglen
+    push msg
+    push concat_buf
+    push msglen
     call memcpy
 
 loop:

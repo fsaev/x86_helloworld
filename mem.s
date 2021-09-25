@@ -14,10 +14,17 @@ global memcpy
 section .text
 
 ; Memcpy - Copies data from source to target with a predesignated length
-; RDI: Source addr
-; RSI: Target addr
-; RDX: Length in bytes
+; rbp + 32: Source addr
+; rbp + 24: Target addr
+; rbp + 16: Length in bytes
+
 memcpy:
+    push rbp            ; Set up the function
+    mov rbp, rsp
+    mov rdi, [rbp + 32]
+    mov rsi, [rbp + 24]
+    mov rdx, [rbp + 16]
+
     add rdx, rsi        ; Transform RDX into end pointer of target
 _mem_cpy_loop:
     mov cl, [rdi]       ; Take byte from source
@@ -27,5 +34,8 @@ _mem_cpy_loop:
 
     cmp rsi, rdx        ; While target pointer is not end pointer 
     jl _mem_cpy_loop
+
+    mov rsp, rbp        ; Restore stack and ebp
+    pop rbp
     
     ret

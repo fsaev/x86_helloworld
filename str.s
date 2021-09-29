@@ -16,10 +16,10 @@ global strrev
 section .text
 
 ; Stritoa - Convert integer to ASCII string
-; RDI: Number in (D)
-; RSI: Buffer addr (D)
-; RDX: Buffer length (D)
-; RCX: Base
+; rbp + 48: Number in
+; rbp + 32: Buffer addr
+; rbp + 24: Buffer length
+; rbp + 16: Base
 
 ; R8: Buffer @ entry (first byte)
 ; R9: Temporary storage of return value
@@ -27,6 +27,13 @@ section .text
 ; Return RAX: Character length of ASCII string
 
 stritoa:
+    push rbp                    ; Set up the function
+    mov rbp, rsp
+    mov rdi, [rbp + 48]
+    mov rsi, [rbp + 32]
+    mov rdx, [rbp + 24]
+    mov rcx, [rbp + 16]
+    
     mov r8, rsi
 
 _stritoa_loop:
@@ -65,15 +72,28 @@ _stritoa_finish:
 
     mov rdi, r8                 ; First byte
     dec rsi                     ; Jump one back to last byte
+
+    push rdi
+    push rsi
     call strrev
 
     mov rax, r9                 ; Store return value in RAX
+    
+    mov rsp, rbp                ; Restore stack and ebp
+    pop rbp
+
     ret
 
 ; Strrev - Reverse bytes between start and end pointer
-; RDI: Start pointer
-; RSI: End pointer
+; rbp + 24: Start pointer
+; rbp + 16: End pointer
+
 strrev:
+    push rbp                    ; Set up the function
+    mov rbp, rsp
+    mov rdi, [rbp + 24]
+    mov rsi, [rbp + 16]
+
     mov al, [rdi]               ;Swap byte at start and end
     mov cl, [rsi]
     mov [rdi], cl
@@ -84,5 +104,8 @@ strrev:
 
     cmp rdi, rsi
     jl strrev                   ; rdi < rsi
+    
+    mov rsp, rbp                ; Restore stack and ebp
+    pop rbp
 
     ret

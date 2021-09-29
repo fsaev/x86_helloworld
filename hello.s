@@ -29,10 +29,10 @@ _start:
 
 loop:
     ; stritoa(r10, concat_buf + msglen, msglen + 8, 10)
-    mov rdi, r10                   
-    mov rsi, concat_buf + msglen  
-    mov rdx, msglen + 8
-    mov rcx, 10
+    push r10
+    push concat_buf + msglen
+    push msglen + 8
+    push 10
     call stritoa
     
     add rax, concat_buf + msglen    ; Find end string
